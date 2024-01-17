@@ -1,0 +1,116 @@
+<style>body {
+    font-family: 'Rubik', sans-serif;
+    /* New font: Rubik */
+    background-color: white;
+    color: #330033;
+    /* Dark Purple */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+header {
+    background-color: #6a0572;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+label {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+    font-size: 18px;
+    /* Increased font size */
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+img {
+    cursor: pointer;
+    width: 20px;
+    /* Adjust the width as needed */
+    height: auto;
+    vertical-align: middle;
+}
+
+.result {
+    margin-top: 20px;
+}
+
+.result label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    /* Increased font size */
+}
+
+.result span {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    /* Increased font size */
+    color: #6a0572;
+}
+
+/* Simple fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Apply animation to result span elements */
+.result span {
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@media only screen and (min-width: 768px) {
+
+    /* Responsive styles for tablets and larger screens */
+    header {
+        padding: 1.5em 0;
+        font-size: 24px;
+    }
+
+    input,
+    select {
+        width: 100%;
+        /* Adjust back to 100% for larger screens */
+        margin-right: 0;
+        /* No margin for larger screens */
+    }
+
+    img {
+        margin-left: 0;
+        /* No margin for larger screens */
+    }
+
+    .result {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .result label,
+    .result span {
+        width: 50%;
+        box-sizing: border-box;
+    }
+}
+
+</style>

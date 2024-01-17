@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Calculation System</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <label>Select State:
+        <select id="stateDropdown">
+            <option value="Gold Coast">Gold Coast</option>
+            <option value="Victoria">Victoria</option>
+        </select>
+    </label>
+
+    <label>Check-in Date:
+        <input type="text" id="checkInDate" readonly>
+        <img src="calendar_icon.png" alt="Calendar" id="checkInCalendar">
+    </label>
+
+    <label>Check-out Date:
+        <input type="text" id="checkOutDate" readonly>
+        <img src="calendar_icon.png" alt="Calendar" id="checkOutCalendar">
+    </label>
+
+    <div class="result">
+        <label>Total Weekdays: <span id="weekdaysCount"></span></label>
+        <label>Total Saturdays: <span id="saturdaysCount"></span></label>
+        <label>Total Sundays: <span id="sundaysCount"></span></label>
+        <label>Total Holidays: <span id="holidaysCount"></span></label>
+        <label>Total Days: <span id="totalDaysCount"></span></label>
+    </div>
+
+    <script>
+        $(function () {
+            // Initialize datepicker for check-in and check-out dates
+            $("#checkInDate, #checkOutDate").datepicker({ dateFormat: 'yy-mm-dd' });
+
+            // Attach click event for the calendar icons
+            $("#checkInCalendar, #checkOutCalendar").click(function () {
+                $(this).prev('input').datepicker('show');
+            });
+
+            // Update counts on date selection change
+            $("#checkInDate, #checkOutDate, #stateDropdown").change(function () {
+                updateCounts();
+            });
+
+            function updateCounts() {
+                // Fetch selected state and holidays
+                var selectedState = $("#stateDropdown").val();
+                var holidays = getHolidays(selectedState);
+
+                // Simulate user input for check-in and check-out dates
+                var checkInDate = $("#checkInDate").val();
+                var checkOutDate = $("#checkOutDate").val();
+
+                // Perform the date calculation (modify as needed)
+                var result = countDays(new Date(checkInDate), new Date(checkOutDate), holidays);
+
+                // Example: Display the results in the UI
+                $("#weekdaysCount").text("Total Weekdays: " + result.totalWeekdays);
+                $("#saturdaysCount").text("Total Saturdays: " + result.totalSaturdays);
+                $("#sundaysCount").text("Total Sundays: " + result.totalSundays);
+                $("#holidaysCount").text("Total Holidays: " + result.totalHolidays);
+                $("#totalDaysCount").text("Total Days: " + result.totalDays);
+            }
+
+            function getHolidays(state) {
+                // Modify this function to fetch holidays based on the selected state
+                if (state == "Gold Coast") {
+                    return ["2024-01-01", "2024-01-26"];  // Example holidays for Gold Coast
+                } else if (state == "Victoria") {
+                    return ["2024-01-01", "2024-01-26"];  // Example holidays for Victoria
+                } else {
+                    return [];
+                }
+            }
+
+            function countDays(checkIn, checkOut, holidays) {
+                let currentDate = new Date(checkIn);
+                let totalWeekdays = 0;
+                let totalSaturdays = 0;
+                let totalSundays = 0;
+                let totalHolidays = 0;
+
+                while (currentDate <= checkOut) {
+                    const dayOfWeek = currentDate.getDay();
+
+                    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                        // Weekday (Monday to Friday)
+                        totalWeekdays++;
+                    } else if (dayOfWeek === 6) {
+                        // Saturday
+                        totalSaturdays++;
+                    } else if (dayOfWeek === 0) {
+                        // Sunday
+                        totalSundays++;
+                    }
+
+                    // Check if the current date is a holiday
+                    const formattedCurrentDate = formatDate(currentDate);
+                    if (holidays.includes(formattedCurrentDate)) {
+                        totalHolidays++;
+                    }
+
+                    // Move to the next day
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+
+                return {
+                    totalWeekdays,
+                    totalSaturdays,
+                    totalSundays,
+                    totalHolidays,
+                    totalDays: calculateTotalDays(checkIn, checkOut)
+                };
+            }
+
+            function formatDate(date) {
+                const year = date.getFullYear();
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const day = String(date.getDate()).padStart(2, '0');
+                return `${year}-${month}-${day}`;
+            }
+
+            function calculateTotalDays(checkIn, checkOut) {
+                const millisecondsInOneDay = 24 * 60 * 60 * 1000;
+                const diffInMilliseconds = Math.abs(checkOut - checkIn);
+                return Math.round(diffInMilliseconds / millisecondsInOneDay) + 1; // Add 1 to include the check-in day
+            }
+        });
+    </script>
+</body>
+
+</html>
