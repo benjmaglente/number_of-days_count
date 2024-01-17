@@ -12,6 +12,8 @@
         label {
             display: block;
             margin: 10px 0;
+            font-weight: bold;
+            /* Make labels bold */
         }
 
         .result {
@@ -22,7 +24,13 @@
 </head>
 
 <body>
-
+    <div class="instruction">
+        <p>Note:</p>
+        <ul>
+            <li>Holidays might not be updated, so please ensure to check manually if there are holidays in the date included from check-in to check-out.</li>
+            <li>Check In Date and Check Out Date were not coded to be .5 day or half of the day, so please manually calculate it.</li>
+        </ul>
+    </div>
     <label>Select State:
         <select id="stateDropdown">
             <option value="Gold Coast">Gold Coast</option>
@@ -30,12 +38,12 @@
         </select>
     </label>
 
-    <label>Check-in Date:
+    <label>Check-In Date:
         <input type="text" id="checkInDate" readonly>
         <img src="calendar_icon.png" alt="Calendar" id="checkInCalendar">
     </label>
 
-    <label>Check-out Date:
+    <label>Check-Out Date:
         <input type="text" id="checkOutDate" readonly>
         <img src="calendar_icon.png" alt="Calendar" id="checkOutCalendar">
     </label>
@@ -46,6 +54,8 @@
         <label>Total Sundays: <span id="sundaysCount"></span></label>
         <label>Total Holidays: <span id="holidaysCount"></span></label>
         <label>Total Days: <span id="totalDaysCount"></span></label>
+        <label>Check-in Day: <span id="checkInDay"></span></label>
+        <label>Check-out Day: <span id="checkOutDay"></span></label>
     </div>
 
     <script>
@@ -75,12 +85,14 @@
                 // Perform the date calculation (modify as needed)
                 var result = countDays(new Date(checkInDate), new Date(checkOutDate), holidays);
 
-                // Example: Display the results in the UI
-                $("#weekdaysCount").text("Total Weekdays: " + result.totalWeekdays);
-                $("#saturdaysCount").text("Total Saturdays: " + result.totalSaturdays);
-                $("#sundaysCount").text("Total Sundays: " + result.totalSundays);
-                $("#holidaysCount").text("Total Holidays: " + result.totalHolidays);
-                $("#totalDaysCount").text("Total Days: " + result.totalDays);
+                // Display the results in the UI
+                $("#weekdaysCount").text(result.totalWeekdays);
+                $("#saturdaysCount").text(result.totalSaturdays);
+                $("#sundaysCount").text(result.totalSundays);
+                $("#holidaysCount").text(result.totalHolidays);
+                $("#totalDaysCount").text(result.totalDays);
+                $("#checkInDay").text(getDayOfWeek(new Date(checkInDate)));
+                $("#checkOutDay").text(getDayOfWeek(new Date(checkOutDate)));
             }
 
             function getHolidays(state) {
@@ -145,6 +157,12 @@
                 const millisecondsInOneDay = 24 * 60 * 60 * 1000;
                 const diffInMilliseconds = Math.abs(checkOut - checkIn);
                 return Math.round(diffInMilliseconds / millisecondsInOneDay) + 1; // Add 1 to include the check-in day
+            }
+
+            function getDayOfWeek(date) {
+                const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                const dayIndex = date.getDay();
+                return daysOfWeek[dayIndex];
             }
         });
     </script>

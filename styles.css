@@ -44,6 +44,29 @@ img {
     vertical-align: middle;
 }
 
+.instruction {
+    margin-top: 50px;
+    font-family: 'Rubik', sans-serif;
+    /* New font: Rubik */
+}
+
+.instruction p {
+    font-weight: bold;
+}
+
+.instruction ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.instruction li {
+    font-size: 15px;
+    /* Adjust font size as needed */
+    color: #330033;
+    /* Dark Purple */
+    margin-bottom: 10px;
+}
+
 .result {
     margin-top: 20px;
 }

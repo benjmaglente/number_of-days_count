@@ -9,6 +9,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/calculateDays', (req, res) => {
     const { state, checkInDate, checkOutDate } = req.body;
     const holidays = getHolidays(state);
+    console.log(`Holidays fetched: ${holidays}`);
+    
     const result = countDays(new Date(checkInDate), new Date(checkOutDate), holidays);
 
     res.json(result);
@@ -17,9 +19,9 @@ app.post('/calculateDays', (req, res) => {
 function getHolidays(state) {
     // Modify this function to fetch holidays based on the selected state
     if (state === "Gold Coast") {
-        return [new Date("2024-01-01"), new Date("2024-01-26"), new Date("2024-03-29"), new Date("2024-03-30"), new Date("2024-03-31"), new Date("2024-04-01"), new Date("2024-04-25"), new Date("2024-05-06"), new Date("2024-10-07"), new Date("2024-12-25"), new Date("2024-12-26")];
+        return ["2024-01-01", "2024-01-26", "2024-03-29", "2024-03-30", "2024-03-31", "2024-04-01", "2024-04-25", "2024-05-06", "2024-10-07", "2024-12-25", "2024-12-26"];
     } else if (state === "Victoria") {
-        return [new Date("2024-01-01"), new Date("2024-01-26"),new Date("2024-03-11"), new Date("2024-03-29"), new Date("2024-03-30"), new Date("2024-03-31"), new Date("2024-04-01"), new Date("2024-04-25"), new Date("2024-06-10"), new Date("2024-09-27"), new Date("2024-11-05"), new Date("2024-12-25"), new Date("2024-12-26")];
+        return ["2024-01-01", "2024-01-26", "2024-03-11", "2024-03-29", "2024-03-30", "2024-03-31", "2024-04-01", "2024-04-25", "2024-06-10", "2024-09-27", "2024-11-05", "2024-12-25", "2024-12-26"];
     } else {
         return [];
     }
